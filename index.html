@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#123d38">
+  <meta name="description" content="店铺管材规格与货架实景离线定位工具">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="找管">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>找管 · 手机快速定位</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="apple-touch-startup-image" href="assets/splash/splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="assets/splash/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="assets/splash/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="assets/splash/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="assets/splash/splash-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><div><div class="brand-title"><h1>找管</h1><span class="brand-mark" aria-hidden="true">⌖</span></div><p>店铺管材 · 快速定位</p></div></div>
+      <div class="hero-note">好管材<br><span>一搜就到！</span></div>
+      <div class="header-actions"><button id="installButton" class="ghost-button" type="button">安装</button><button id="adminButton" class="ghost-button" type="button">管理员</button></div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="search-card">
+      <div class="search-title"><label for="pipeSearch">要找什么规格？</label><span>⌕&nbsp; 快速找到你需要的管材</span></div>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+        <input id="pipeSearch" type="search" inputmode="search" autocomplete="off" placeholder="搜索规格 / 型号 / 厚度" aria-autocomplete="list" aria-controls="searchSuggestions">
+        <button id="clearSearch" class="clear-search" type="button" aria-label="清空搜索">×</button>
+        <button id="searchButton" class="search-submit" type="button">搜索</button>
+        <div id="searchSuggestions" class="suggestions" role="listbox" hidden></div>
+      </div>
+      <div class="quick-search" aria-label="快捷搜索">
+        <span>大家都在搜：</span><button type="button" data-query="25方">25方</button><button type="button" data-query="38圆">38圆</button><button type="button" data-query="扁管">扁管</button><button type="button" data-query="50 25">50×25</button>
+      </div>
+    </section>
+
+    <section class="guide-panel">
+      <div class="guide-heading"><strong><b>3步</b> 快速找管</strong><span>简单三步，快速定位管材位置</span></div>
+      <div class="guide-steps">
+        <div class="guide-step"><i>1</i><b class="guide-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="21" cy="21" r="12"></circle><path d="m30 30 10 10"></path></svg></b><span><strong>搜规格</strong><small>输入尺寸/型号</small></span></div>
+        <em>›</em><div class="guide-step"><i>2</i><b class="guide-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="14" height="14" rx="2"></rect><rect x="27" y="7" width="14" height="14" rx="2"></rect><rect x="7" y="27" width="14" height="14" rx="2"></rect><rect x="27" y="27" width="14" height="14" rx="2"></rect></svg></b><span><strong>看分区</strong><small>选择所在区域</small></span></div>
+        <em>›</em><div class="guide-step"><i>3</i><b class="guide-icon pin-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 44S9 30 9 19a15 15 0 1 1 30 0c0 11-15 25-15 25Z"></path><circle cx="24" cy="19" r="5"></circle></svg></b><span><strong>去货架</strong><small>查看具体位置</small></span></div>
+      </div>
+    </section>
+
+    <section class="panel area-panel">
+      <div class="panel-heading"><strong>按分区找</strong><span>快速选择仓库分区</span></div>
+      <div id="areaTabs" class="area-tabs"></div>
+    </section>
+
+    <section class="panel filter-panel">
+      <div class="panel-heading"><strong>⚑&nbsp; 快速筛选</strong><button id="resetFilters" class="text-button" type="button">↻ 重置筛选</button></div>
+      <div class="filters">
+        <label>管材类型<select id="shapeFilter"><option>全部</option><option>方管</option><option>圆管</option><option>矩形管</option></select></label>
+        <label>材质<select id="materialFilter"><option>全部</option><option>201</option><option>304</option></select></label>
+        <label class="spec-filter">具体规格<select id="specFilter"><option>全部</option></select></label>
+      </div>
+    </section>
+
+    <div class="result-heading"><strong id="resultTitle">▤&nbsp; 常用/搜索结果</strong><span id="resultCount">正在读取…</span></div>
+    <section id="results" class="results" aria-live="polite"></section>
+    <div id="emptyState" class="empty-state" hidden></div>
+    <div class="page-signature"><span></span>▱&nbsp; 管材找得准 · 工作更轻松<span></span></div>
+  </main>
+
+  <dialog id="locationDialog" class="modal location-modal">
+    <div class="modal-card">
+      <button class="modal-close" data-close="locationDialog" aria-label="关闭">×</button>
+      <div class="modal-title-row"><div><h2 id="locationName"></h2><span id="locationMaterial" class="material-chip"></span></div><button id="editPipeButton" class="primary small" type="button" hidden>修改规格和位置</button></div>
+      <div class="location-banner"><strong id="locationCode"></strong><span id="locationWords"></span></div>
+      <button id="openZoom" class="photo-frame" type="button" aria-label="点击放大实景图片"><img id="rackPhoto" alt="货架实景照片"><span id="locationMarker" class="location-marker"></span><span class="zoom-hint">⌕ 点击放大</span><span id="unmappedNotice" class="unmapped-notice" hidden>该分区尚未标定网格，暂不显示定位圈</span></button>
+      <p id="locationHelp" class="location-help"></p>
+    </div>
+  </dialog>
+
+  <dialog id="zoomDialog" class="zoom-dialog">
+    <div class="zoom-toolbar"><span id="zoomTitle">实景定位</span><div><button id="zoomOut" type="button" aria-label="缩小">－</button><button id="zoomReset" type="button">100%</button><button id="zoomIn" type="button" aria-label="放大">＋</button><button class="zoom-close" data-close="zoomDialog" type="button" aria-label="关闭放大图片">完成</button></div></div>
+    <div id="zoomScroller" class="zoom-scroller"><div id="zoomContent" class="zoom-content"><img id="zoomPhoto" alt="可放大的货架实景照片"><span id="zoomMarker" class="location-marker"></span></div></div>
+  </dialog>
+
+  <dialog id="adminDialog" class="modal compact-modal">
+    <form id="adminForm" class="modal-card">
+      <button class="modal-close" type="button" data-close="adminDialog" aria-label="关闭">×</button>
+      <h2>管理员验证</h2><p>验证后可修改当前手机保存的规格和位置。</p>
+      <label>管理密码<input id="adminPassword" type="password" autocomplete="current-password" required></label>
+      <p id="adminError" class="form-error" hidden></p>
+      <button class="primary full" type="submit">进入管理模式</button>
+    </form>
+  </dialog>
+
+  <dialog id="editDialog" class="modal compact-modal">
+    <form id="editForm" class="modal-card">
+      <button class="modal-close" type="button" data-close="editDialog" aria-label="关闭">×</button>
+      <h2>修改规格和位置</h2><p>修改只保存在当前手机，离线也能继续使用。</p>
+      <div class="edit-grid">
+        <label>名称<input id="editName" required></label><label>厚度<input id="editThickness" required></label>
+        <label>材质<select id="editMaterial"><option>201</option><option>304</option></select></label>
+        <label>货架<select id="editRack"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+        <label>层<input id="editLevel" type="number" min="1" max="10" required></label><label>格<input id="editSlot" type="number" min="1" max="11" required></label>
+      </div>
+      <p id="editWarning" class="edit-warning" hidden>这个货位尚未标定，保存后只显示文字位置，不显示定位圈。</p>
+      <button class="primary full" type="submit">保存到本机</button>
+    </form>
+  </dialog>
+
+  <dialog id="installDialog" class="modal compact-modal">
+    <div class="modal-card">
+      <button class="modal-close" data-close="installDialog" aria-label="关闭">×</button>
+      <h2>安装到手机桌面</h2><div id="installInstructions" class="install-instructions"></div>
+      <button class="primary full" data-close="installDialog" type="button">知道了</button>
+    </div>
+  </dialog>
+
+  <div id="offlineBadge" class="offline-badge" hidden>当前离线 · 仍可正常查管</div>
+  <script src="app.js" defer></script>
+</body>
+</html>
