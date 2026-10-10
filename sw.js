@@ -1,4 +1,4 @@
-const CACHE = 'zhaoguan-offline-v16';
+const CACHE = 'zhaoguan-offline-v17';
 const CORE = [
   './', './index.html', './styles.css', './app.js', './pipes.json', './manifest.webmanifest',
   './assets/rack-A.jpg', './assets/rack-B.jpg', './assets/rack-C.jpg', './assets/rack-D.jpg',
