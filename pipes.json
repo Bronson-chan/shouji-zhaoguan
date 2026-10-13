@@ -3143,10 +3143,10 @@
     },
     {
       "id": "a-r9-c10-1",
-      "name": "32方",
+      "name": "30方",
       "thickness": "足0.92（标1.2+）",
       "shape": "方管",
-      "spec": "32方",
+      "spec": "30方",
       "material": "304",
       "rack": "A",
       "level": 2,
